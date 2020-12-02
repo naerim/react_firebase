@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import UseInput from '../hooks/useInput';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { loginRequest } from '../reducer/user';
 
 const Login = () => {
   const [id, onSetId] = UseInput('');
   const [password, onSetPassword] = UseInput('');
 
+  const dispatch = useDispatch();
+
+  const onSubmitForm = useCallback(
+    (e) => {
+      e.preventDefault();
+      console.log(id, password);
+      dispatch(loginRequest({ id, password }));
+    },
+    [id, password],
+  );
+
   return (
-    <MainTemplate>
+    <MainTemplate onSubmit={onSubmitForm}>
       <LoginTitle>로그인</LoginTitle>
       <InputDiv>
         <Input value={id} placeholder="아이디를 입력하세요" onChange={onSetId} />
@@ -22,15 +36,7 @@ const Login = () => {
         />
       </InputDiv>
       <ButtonDiv>
-        <Button
-          disabled={!password}
-          onClick={() =>
-            (id !== state.id || password !== state.password) &&
-            alert('아이디/비밀번호가 일치하지 않습니다.')
-          }
-        >
-          확인
-        </Button>
+        <Button disabled={!password}>확인</Button>
       </ButtonDiv>
       <ButtonDiv>
         <Link to="/signup">
@@ -41,7 +47,7 @@ const Login = () => {
   );
 };
 
-const MainTemplate = styled.div`
+const MainTemplate = styled.form`
   margin-left: 25%;
   margin-right: 25%;
   margin-top: 6rem;

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import UseInput from '../hooks/useInput';
+import { useDispatch } from 'react-redux';
+import { signupRequest } from '../reducer/user';
 
 const SignUp = () => {
   const [id, onSetId] = UseInput('');
@@ -8,8 +10,19 @@ const SignUp = () => {
   const [name, onSetName] = UseInput('');
   const [confirm, onSetConfirm] = UseInput('');
 
+  const dispatch = useDispatch();
+
+  const onSubmitForm = useCallback(
+    (e) => {
+      e.preventDefault();
+      console.log(id, password, name);
+      dispatch(signupRequest({ id, password, name }));
+    },
+    [id, password, name],
+  );
+
   return (
-    <MainTemplate>
+    <MainTemplate onSubmit={onSubmitForm}>
       <SignUpTitle>회원가입</SignUpTitle>
       <InputDiv>
         <Input value={name} placeholder="이름을 입력하세요" onChange={onSetName} />
@@ -43,7 +56,7 @@ const SignUp = () => {
   );
 };
 
-const MainTemplate = styled.div`
+const MainTemplate = styled.form`
   margin-left: 25%;
   margin-right: 25%;
   margin-top: 6rem;
