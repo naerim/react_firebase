@@ -30,7 +30,6 @@ const initialState = {
   signUpDone: false,
   signUpError: null,
   me: null,
-  user: null,
 };
 
 function user(state = initialState, action) {
@@ -71,7 +70,6 @@ function user(state = initialState, action) {
         break;
       case SIGN_UP_SUCCESS:
         draft.signUpLoading = false;
-        draft.user = action.data;
         draft.signUpDone = true;
         break;
       case SIGN_UP_FAILURE:
