@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { loginRequest } from '../reducer/user';
 
 const Login = () => {
-  const [id, onSetId] = UseInput('');
+  const [email, onSetEmail] = UseInput('');
   const [password, onSetPassword] = UseInput('');
 
   const dispatch = useDispatch();
@@ -15,17 +15,17 @@ const Login = () => {
   const onSubmitForm = useCallback(
     (e) => {
       e.preventDefault();
-      console.log(id, password);
-      dispatch(loginRequest({ id, password }));
+      console.log(email, password);
+      dispatch(loginRequest({ email, password }));
     },
-    [id, password],
+    [email, password],
   );
 
   return (
     <MainTemplate onSubmit={onSubmitForm}>
       <LoginTitle>로그인</LoginTitle>
       <InputDiv>
-        <Input value={id} placeholder="아이디를 입력하세요" onChange={onSetId} />
+        <Input value={email} placeholder="이메일을 입력하세요" onChange={onSetEmail} />
       </InputDiv>
       <InputDiv>
         <Input

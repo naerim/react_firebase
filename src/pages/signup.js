@@ -3,22 +3,28 @@ import styled from 'styled-components';
 import UseInput from '../hooks/useInput';
 import { useDispatch } from 'react-redux';
 import { signupRequest } from '../reducer/user';
+// import firebase from 'firebase';
 
 const SignUp = () => {
-  const [id, onSetId] = UseInput('');
+  const [email, onSetEmail] = UseInput('');
   const [password, onSetPassword] = UseInput('');
   const [name, onSetName] = UseInput('');
   const [confirm, onSetConfirm] = UseInput('');
 
   const dispatch = useDispatch();
 
+  // const onSubmitFirebase = async () => {
+  //   let createUser = await firebase.auth()
+  //     .createUserWithEmailAndPassword(email, password)
+  // }
+
   const onSubmitForm = useCallback(
     (e) => {
       e.preventDefault();
-      console.log(id, password, name);
-      dispatch(signupRequest({ id, password, name }));
+      console.log(email, password, name);
+      dispatch(signupRequest({ email, password, name }));
     },
-    [id, password, name],
+    [email, password, name],
   );
 
   return (
@@ -28,7 +34,7 @@ const SignUp = () => {
         <Input value={name} placeholder="이름을 입력하세요" onChange={onSetName} />
       </InputDiv>
       <InputDiv>
-        <Input value={id} placeholder="아이디를 입력하세요" onChange={onSetId} />
+        <Input value={email} placeholder="이메일을 입력하세요" onChange={onSetEmail} />
       </InputDiv>
       <InputDiv>
         <Input
@@ -48,7 +54,7 @@ const SignUp = () => {
       </InputDiv>
       {password !== confirm && confirm && <CheckDiv>비밀번호가 일치하지 않습니다.</CheckDiv>}
       <ButtonDiv>
-        <Button disabled={!name || !id || !password || !confirm || password !== confirm}>
+        <Button disabled={!name || !email || !password || !confirm || password !== confirm}>
           확인
         </Button>
       </ButtonDiv>
