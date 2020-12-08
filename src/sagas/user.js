@@ -1,5 +1,4 @@
 import { all, delay, fork, put, takeLatest } from 'redux-saga/effects';
-import db from '../firebase';
 
 import {
   LOG_IN_REQUEST,
@@ -44,10 +43,8 @@ function* logout() {
   }
 }
 
-function* signup(action) {
+function* signup() {
   try {
-    const response = yield db.collection('user').add(action.data);
-    console.log(response);
     yield put({
       type: SIGN_UP_SUCCESS,
     });
@@ -55,7 +52,7 @@ function* signup(action) {
     console.error(err);
     yield put({
       type: SIGN_UP_FAILURE,
-      error: err.response.data,
+      error: err.data,
     });
   }
 }

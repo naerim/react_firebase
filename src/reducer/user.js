@@ -14,9 +14,8 @@ export const logoutRequest = () => ({
   type: LOG_OUT_REQUEST,
 });
 
-export const signupRequest = (data) => ({
+export const signupRequest = () => ({
   type: SIGN_UP_REQUEST,
-  data,
 });
 
 const initialState = {

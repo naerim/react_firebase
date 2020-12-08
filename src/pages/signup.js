@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import UseInput from '../hooks/useInput';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signupRequest } from '../reducer/user';
 import firebase from 'firebase';
 
@@ -10,6 +10,8 @@ const SignUp = () => {
   const [password, onSetPassword] = UseInput('');
   const [name, onSetName] = UseInput('');
   const [confirm, onSetConfirm] = UseInput('');
+
+  const { signUpLoading } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -24,10 +26,10 @@ const SignUp = () => {
 
   const onSubmitForm = useCallback(
     (e) => {
+      onSubmitFirebase();
       e.preventDefault();
       console.log(email, password, name);
       dispatch(signupRequest({ email, password, name }));
-      onSubmitFirebase();
     },
     [email, password, name],
   );
@@ -59,7 +61,11 @@ const SignUp = () => {
       </InputDiv>
       {password !== confirm && confirm && <CheckDiv>비밀번호가 일치하지 않습니다.</CheckDiv>}
       <ButtonDiv>
-        <Button disabled={!name || !email || !password || !confirm || password !== confirm}>
+        <Button
+          disabled={
+            !name || !email || !password || !confirm || password !== confirm || signUpLoading
+          }
+        >
           확인
         </Button>
       </ButtonDiv>
