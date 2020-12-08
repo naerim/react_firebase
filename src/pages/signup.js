@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import UseInput from '../hooks/useInput';
 import { useDispatch } from 'react-redux';
 import { signupRequest } from '../reducer/user';
-// import firebase from 'firebase';
+import firebase from 'firebase';
 
 const SignUp = () => {
   const [email, onSetEmail] = UseInput('');
@@ -13,16 +13,21 @@ const SignUp = () => {
 
   const dispatch = useDispatch();
 
-  // const onSubmitFirebase = async () => {
-  //   let createUser = await firebase.auth()
-  //     .createUserWithEmailAndPassword(email, password)
-  // }
+  const onSubmitFirebase = async () => {
+    try {
+      let createUser = await firebase.auth().createUserWithEmailAndPassword(email, password);
+      console.log('createUser', createUser);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const onSubmitForm = useCallback(
     (e) => {
       e.preventDefault();
       console.log(email, password, name);
       dispatch(signupRequest({ email, password, name }));
+      onSubmitFirebase();
     },
     [email, password, name],
   );

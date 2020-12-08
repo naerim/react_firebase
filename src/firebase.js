@@ -1,6 +1,7 @@
-import firebase from 'firebase';
-// import '@firebase/firestore';
-// import ReduxSagaFirebase from 'redux-saga-firebase';
+import firebase from 'firebase/app';
+import "firebase/auth";
+import "firebase/database";
+import "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDyuC_LYLm-TOQezmTWFn3tKCWdKD7urK4",
@@ -14,7 +15,5 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-// const reduxSagaFirebase = new ReduxSagaFirebase(firebase);
-const db = firebase.firestore();
 
-export default db;
+export default firebase;
