@@ -17,8 +17,17 @@ const SignUp = () => {
 
   const onSubmitFirebase = async () => {
     try {
-      let createUser = await firebase.auth().createUserWithEmailAndPassword(email, password);
-      console.log('createUser', createUser);
+      let createdUser = await firebase.auth().createUserWithEmailAndPassword(email, password);
+      console.log('createUser', createdUser);
+
+      // await createdUser.updateProfile({
+      //   name: name,
+      // });
+
+      // firebase 데이터베이스에 저장해주기
+      // await firebase.firebase().ref('users').child(createdUser.uid).set({
+      //   name: createdUser.name,
+      // });
     } catch (error) {
       console.log(error);
     }
