@@ -17,34 +17,36 @@ const SignUp = () => {
 
   const onSubmitFirebase = async () => {
     try {
-      let createdUser = await firebase.auth().createUserWithEmailAndPassword(email, password);
+      const createdUser = await firebase.auth().createUserWithEmailAndPassword(email, password);
       console.log('createUser', createdUser);
 
-      // await createdUser.updateProfile({
-      //   name: name,
-      // });
+      await createdUser.updateProfile({
+        name: name,
+      });
 
-      // firebase 데이터베이스에 저장해주기
-      // await firebase.firebase().ref('users').child(createdUser.uid).set({
-      //   name: createdUser.name,
-      // });
+      //firebase 데이터베이스에 저장해주기
+      await firebase.database().ref('users').child(createdUser.uid).set({
+        name: createdUser.name,
+        email: createdUser.email,
+        password: createdUser.password,
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const onSubmitForm = useCallback(
-    (e) => {
-      onSubmitFirebase();
-      e.preventDefault();
-      console.log(email, password, name);
-      dispatch(signupRequest({ email, password, name }));
-    },
-    [email, password, name],
-  );
+  // const onSubmitForm = useCallback(
+  //   (e) => {
+  //     onSubmitFirebase();
+  //     e.preventDefault();
+  //     console.log(email, password, name);
+  //     dispatch(signupRequest({ email, password, name }));
+  //   },
+  //   [email, password, name],
+  // );
 
   return (
-    <MainTemplate onSubmit={onSubmitForm}>
+    <MainTemplate onSubmit={onSubmitFirebase}>
       <SignUpTitle>회원가입</SignUpTitle>
       <InputDiv>
         <Input value={name} placeholder="이름을 입력하세요" onChange={onSetName} />
